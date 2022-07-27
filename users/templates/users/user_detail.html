@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ object }}
+{% endblock title %}
+
+{% block content %}
+<h1>
+  {{ object }}
+  {% if user == object %}
+    <a class="btn btn-info" href="{% url 'user_update' user.pk %}">Редактировать</a>
+  {% endif %}
+</h1>
+
+{% if object.avatar %}
+  <div class="row my-4">
+      <div class="col-sm-2"><img class="img-fluid" src="{{ object.avatar.url }}"></div>
+  </div>
+{% endif %}
+<div class="row ">
+    <div class="col-sm-4">Имя</div>
+    <div class="col-sm-8">{{ object.first_name }}</div>
+</div>
+<div class="row ">
+    <div class="col-sm-4">Фамилия</div>
+    <div class="col-sm-8">{{ object.last_name }}</div>
+</div>
+<div class="row">
+    <div class="col-sm-4">Email</div>
+    <div class="col-sm-8">{{ object.email }}</div>
+</div>
+<div class="row">
+    <div class="col-sm-4">Битрикс ID</div>
+    <div class="col-sm-8">{{ object.bitrix_user_id }}</div>
+</div>
+<br>
+<h2>Сделки, по которым доступны комиссионные</h2>
+{% if deals %}
+
+  {% for deal_i in deals %}
+  <article class="border rounded my-4 p-4">
+    {% for key, value in deal_i.items %}
+    <div class="row">
+      <div class="col-sm-4">{{ key }}</div>
+      <div class="col-sm-8">{{ value }}</div>
+    </div>
+    {% endfor %}
+  </article>
+  <br>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-secondary">Нет доступных сделок</div>
+{% endif %}
+
+
+{% endblock content %}
